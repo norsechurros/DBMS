@@ -9,7 +9,7 @@ public class bankApp
         System.out.println("Enter number of customers (n): ");
         int n = sc.nextInt();
 
-        bankApp ob[] = new bankApp();
+        //bankApp ob[] = new bankApp();
 
     }
 }
