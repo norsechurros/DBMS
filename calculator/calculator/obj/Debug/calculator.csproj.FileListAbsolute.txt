@@ -1,1 +1,9 @@
 C:\Users\STUDENT\Desktop\220953306\calculator\calculator\bin\Debug\calculator.exe.config
+C:\Users\STUDENT\Desktop\220953306\calculator\calculator\bin\Debug\calculator.exe
+C:\Users\STUDENT\Desktop\220953306\calculator\calculator\bin\Debug\calculator.pdb
+C:\Users\STUDENT\Desktop\220953306\calculator\calculator\obj\Debug\calculator.csprojResolveAssemblyReference.cache
+C:\Users\STUDENT\Desktop\220953306\calculator\calculator\obj\Debug\calculator.Form1.resources
+C:\Users\STUDENT\Desktop\220953306\calculator\calculator\obj\Debug\calculator.Properties.Resources.resources
+C:\Users\STUDENT\Desktop\220953306\calculator\calculator\obj\Debug\calculator.csproj.GenerateResource.Cache
+C:\Users\STUDENT\Desktop\220953306\calculator\calculator\obj\Debug\calculator.exe
+C:\Users\STUDENT\Desktop\220953306\calculator\calculator\obj\Debug\calculator.pdb
