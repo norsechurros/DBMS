@@ -1,0 +1,10 @@
+C:\Users\STUDENT\Desktop\220953306\OnlineReg\OnlineReg\bin\Debug\OnlineReg.exe.config
+C:\Users\STUDENT\Desktop\220953306\OnlineReg\OnlineReg\bin\Debug\OnlineReg.exe
+C:\Users\STUDENT\Desktop\220953306\OnlineReg\OnlineReg\bin\Debug\OnlineReg.pdb
+C:\Users\STUDENT\Desktop\220953306\OnlineReg\OnlineReg\obj\Debug\OnlineReg.csprojResolveAssemblyReference.cache
+C:\Users\STUDENT\Desktop\220953306\OnlineReg\OnlineReg\obj\Debug\OnlineReg.Form1.resources
+C:\Users\STUDENT\Desktop\220953306\OnlineReg\OnlineReg\obj\Debug\OnlineReg.Form2.resources
+C:\Users\STUDENT\Desktop\220953306\OnlineReg\OnlineReg\obj\Debug\OnlineReg.Properties.Resources.resources
+C:\Users\STUDENT\Desktop\220953306\OnlineReg\OnlineReg\obj\Debug\OnlineReg.csproj.GenerateResource.Cache
+C:\Users\STUDENT\Desktop\220953306\OnlineReg\OnlineReg\obj\Debug\OnlineReg.exe
+C:\Users\STUDENT\Desktop\220953306\OnlineReg\OnlineReg\obj\Debug\OnlineReg.pdb

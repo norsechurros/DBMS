@@ -1,0 +1,10 @@
+C:\Users\STUDENT\Desktop\220953306\BankingApplication\BankingApplication\bin\Debug\BankingApplication.exe.config
+C:\Users\STUDENT\Desktop\220953306\BankingApplication\BankingApplication\bin\Debug\BankingApplication.exe
+C:\Users\STUDENT\Desktop\220953306\BankingApplication\BankingApplication\bin\Debug\BankingApplication.pdb
+C:\Users\STUDENT\Desktop\220953306\BankingApplication\BankingApplication\obj\Debug\BankingApplication.csprojResolveAssemblyReference.cache
+C:\Users\STUDENT\Desktop\220953306\BankingApplication\BankingApplication\obj\Debug\BankingApplication.Form1.resources
+C:\Users\STUDENT\Desktop\220953306\BankingApplication\BankingApplication\obj\Debug\BankingApplication.Properties.Resources.resources
+C:\Users\STUDENT\Desktop\220953306\BankingApplication\BankingApplication\obj\Debug\BankingApplication.csproj.GenerateResource.Cache
+C:\Users\STUDENT\Desktop\220953306\BankingApplication\BankingApplication\obj\Debug\BankingApplication.exe
+C:\Users\STUDENT\Desktop\220953306\BankingApplication\BankingApplication\obj\Debug\BankingApplication.pdb
+C:\Users\STUDENT\Desktop\220953306\BankingApplication\BankingApplication\obj\Debug\BankingApplication.ChangePass.resources
