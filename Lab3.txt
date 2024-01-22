@@ -1,0 +1,34 @@
+create table Car1(driver_id varchar(20),name varchar(50), address varchar(100), primary key (driver_id));
+create table Car1(regno varchar(20),model varchar(30),Year int , primary key(regno));
+create table Car1(report_number int , accd_date date, location varchar(50));
+create table Participated1 (driver_id varchar(30), regno varchar(20));
+create table Participated1 (driver_id varchar(30), regno varchar(20), report_number int , damage_amount int);
+
+insert into Participated values('123','RG00', '789', 100019);
+insert into Participated values('123','RG01','697',45673);
+insert into Participated values('456','RG02','345',34876);
+insert into Participated values('789','RG03','543',2457);
+insert into Participated values('101','RG04','113',436768);
+
+ALTER TABLE Car
+ADD CONSTRAINT fk_car_Car
+FOREIGN KEY (customer_id)
+REFERENCES customers(customer_id);
+
+alter Table Car modify Location varchar(20)
+
+ UPDATE participated
+  2  SET damage_amount = 25000
+  3  WHERE report_number = 789;
+
+ alter table participated modify driver_id varchar(20);
+
+insert into Accident values('456',to_date('2004-04-06','YYYY-MM-DD'),'Gurgaon');
+
+-- Add a virtual column to store the extracted year
+ALTER TABLE accident
+ADD (accd_year GENERATED ALWAYS AS (EXTRACT(YEAR FROM accd_date)) VIRTUAL);
+
+-- Add a check constraint using the virtual column
+ALTER TABLE accident
+ADD CONSTRAINT check_accd_year CHECK (accd_year <= 2020);
