@@ -1,0 +1,59 @@
+Accident Schema Construct
+
+PERSON (driver_id#: varchar(30), name: varchar(50),
+address:varchar(100)
+CAR (regno: varchar(20), model: varchar(30), Year:int)
+ACCIDENT (report_number: int, accd_date: date, location:
+varchar(50))
+OWNS (driver_id#: varchar(30), regno: varchar(20))
+PARTICIPATED (driver_id#: varchar(30), regno: varchar(20), report_number:
+int, damage_amount: int)
+
+1. select count(report_number)
+from Accident
+where extract(year from accd_date)=2008;
+
+2. SELECT COUNT(report_number)
+FROM car, participated
+WHERE participated.regno = car.regno AND car.model = 'MD_01';
+
+3. SELECT
+  p.name AS OWNER_NAME,
+  COUNT(DISTINCT a.report_number) AS "No. of Accidents",
+  SUM(pa.damage_amount) AS "Total Damage Amount"
+FROM
+  person p
+JOIN
+  participated pa ON p.driver_id = pa.driver_id
+JOIN
+  accident a ON pa.report_number = a.report_number
+GROUP BY
+  p.name
+ORDER BY
+  "Total Damage Amount" DESC;
+
+ INSERT INTO Accident (REPORT_NUMBER, ACCD_DATE, LOCATION)
+   VALUES ('345', TO_DATE('2008-04-06', 'YYYY-MM-DD'), 'Ludhiana');
+
+4. SELECT
+  p.name AS OWNER_NAME,
+  EXTRACT(YEAR FROM a.accd_date) AS ACCIDENT_YEAR,
+  COUNT(DISTINCT a.report_number) AS "No. of Accidents"
+FROM
+  person p
+JOIN
+  participated pa ON p.driver_id = pa.driver_id
+JOIN
+  accident a ON pa.report_number = a.report_number
+GROUP BY
+  p.name, EXTRACT(YEAR FROM a.accd_date)
+HAVING
+  COUNT(DISTINCT a.report_number) > 2;
+
+
+5. SELECT
+  p.name AS OWNER_NAME
+FROM
+  person p
+WHERE
+  p.driver_id# NOT IN (SELECT DISTINCT pa.driver_id# FROM participated pa);
