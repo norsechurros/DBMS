@@ -35,24 +35,24 @@ namespace calculator
             double.TryParse(Op2, out num2); 
             if (Operator == '+') 
             { 
-            res = num1 + num2; 
+            res = Math.Pow(num1,0.5); 
             this.textBox1.Text = res.ToString(); 
             } 
             else if (Operator == '-') 
             { 
-            res = num1 - num2; 
+            res = Math.Pow(num1,2); 
             textBox1.Text = res.ToString(); 
             } 
             else if (Operator == '*') 
             { 
-            res = num1 * num2; 
+            res = Math.Sin(num1); 
             textBox1.Text = res.ToString(); 
             }
             else if (Operator == '/') 
             { 
             if (num2 != 0) 
             { 
-            res = num1 / num2; 
+            res = Math.Cos(num1); 
             textBox1.Text = res.ToString(); 
             } 
             else 
