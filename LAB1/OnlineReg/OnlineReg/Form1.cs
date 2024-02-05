@@ -44,9 +44,15 @@ namespace OnlineReg
 
         private void button1_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Confirm?");
             Form2 obj1 = new Form2();
             obj1.Show();
             this.Hide();
+
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
 
         }
     }
