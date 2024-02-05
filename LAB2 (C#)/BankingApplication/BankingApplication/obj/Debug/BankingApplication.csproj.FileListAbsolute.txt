@@ -37,3 +37,6 @@ C:\Users\STUDENT\Desktop\vansh\DBMS_Lab\BankingApplication\BankingApplication\ob
 C:\Users\STUDENT\Desktop\vansh\DBMS_Lab\BankingApplication\BankingApplication\obj\Debug\BankingApplication.Properties.Resources.resources
 C:\Users\STUDENT\Desktop\vansh\DBMS_Lab\BankingApplication\BankingApplication\obj\Debug\BankingApplication.Transact.resources
 C:\Users\STUDENT\Desktop\vansh\DBMS_Lab\BankingApplication\BankingApplication\obj\Debug\BankingApplication.csproj.GenerateResource.Cache
+E:\220953306\LAB2 (C#)\BankingApplication\BankingApplication\bin\Debug\BankingApplication.exe.config
+E:\220953306\LAB2 (C#)\BankingApplication\BankingApplication\obj\Debug\BankingApplication.exe
+E:\220953306\LAB2 (C#)\BankingApplication\BankingApplication\obj\Debug\BankingApplication.pdb
