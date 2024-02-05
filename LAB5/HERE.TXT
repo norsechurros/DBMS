@@ -1,1 +1,30 @@
+create Table Student (regno varchar(20),name varchar(20),major varchar(20),bdate date,primary key(regno));
+create Table course (course int,cname varchar(20),dept varchar(20),primary key(course));
+create Table Enroll (regno varchar(20),course int, sem int, book_isbn int, primary key(course, regno));
+create table book_adoption(course int, sem int, book_isbn int, primary key(course,sem));
+create table text(book_isbn int, booktitle varchar(20), publisher varchar(50), author varchar (50),primary key(book_isbn));
 
+insert into Student values('3306','Vansh','CCE',to_date('2004-05-23','YYYY-MM-DD'));
+insert into Student values('4567','Rahul','IT',to_date('2004-06-24','YYYY-MM-DD'));
+insert into Student values('3546','Ram ','CSE',to_date('2004-07-29','YYYY-MM-DD'));
+insert into Student values('2365','Hema','MECH',to_date('2004-02-29','YYYY-MM-DD'));
+insert into Student values('2756','Riya','ECE',to_date('2004-08-12','YYYY-MM-DD'));
+
+insert into COURSE values('1001','DBMS','CCE');
+insert into COURSE values('1002','OS','CCE');
+insert into COURSE values('1003','MATHS','CCE');
+insert into COURSE values('1004','DAA','CCE');
+insert into COURSE values('1005','SDT','CCE');
+
+insert into Enroll values('3306','1001','3','80081');
+insert into Enroll values('4567','1002','3','80082');
+insert into Enroll values('3546','1003','3','80083');
+insert into Enroll values('2365','1004','3','80084');
+insert into Enroll values('2756','1005','3','80085');
+
+insert into book_adoption('1001','3','80081');
+
+all create tables
+1 insert per table
+select* from for all the table
+queries + output
