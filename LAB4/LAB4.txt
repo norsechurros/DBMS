@@ -57,3 +57,5 @@ FROM
   person p
 WHERE
   p.driver_id# NOT IN (SELECT DISTINCT pa.driver_id# FROM participated pa);
+
+Additional Questions
