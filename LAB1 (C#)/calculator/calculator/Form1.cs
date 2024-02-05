@@ -35,24 +35,24 @@ namespace calculator
             double.TryParse(Op2, out num2); 
             if (Operator == '+') 
             { 
-            res = num1 + num2; 
+            res = Math.Pow(num1,0.5); 
             this.textBox1.Text = res.ToString(); 
             } 
             else if (Operator == '-') 
             { 
-            res = num1 - num2; 
+            res = Math.Pow(num1,2); 
             textBox1.Text = res.ToString(); 
             } 
             else if (Operator == '*') 
             { 
-            res = num1 * num2; 
+            res = Math.Sin(num1); 
             textBox1.Text = res.ToString(); 
             }
             else if (Operator == '/') 
             { 
             if (num2 != 0) 
             { 
-            res = num1 / num2; 
+            res = Math.Cos(num1); 
             textBox1.Text = res.ToString(); 
             } 
             else 
@@ -60,6 +60,35 @@ namespace calculator
             textBox1.Text = "DIV/Zero!"; 
             } 
             } 
+            input = string.Empty;
+
+            if (Operator == '1')
+            {
+                res = Math.Pow(num1, 0.5);
+                this.textBox1.Text = res.ToString();
+            }
+            else if (Operator == '2')
+            {
+                res = Math.Pow(num1, 2);
+                textBox1.Text = res.ToString();
+            }
+            else if (Operator == '3')
+            {
+                res = Math.Sin(num1);
+                textBox1.Text = res.ToString();
+            }
+            else if (Operator == '4')
+            {
+                if (num2 != 0)
+                {
+                    res = Math.Cos(num1);
+                    textBox1.Text = res.ToString();
+                }
+                else
+                {
+                    textBox1.Text = "DIV/Zero!";
+                }
+            }
             input = string.Empty;
         }
 
@@ -172,6 +201,46 @@ namespace calculator
             Op1 = input;
             Operator = '*';
             input = string.Empty;
+        }
+
+        private void button9_Click_1(object sender, EventArgs e)
+        {
+            this.textBox1.Text = string.Empty;
+            input = input + "9";
+            this.textBox1.Text += input;
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            Op1 = input;
+            Operator = '2';
+            input = string.Empty;
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            Op1 = input;
+            Operator = '1';
+            input = string.Empty;
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            Op1 = input;
+            Operator = '3';
+            input = string.Empty;
+        }
+
+        private void button18_Click(object sender, EventArgs e)
+        {
+            Op1 = input;
+            Operator = '4';
+            input = string.Empty;
+        }
+
+        private void button12_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

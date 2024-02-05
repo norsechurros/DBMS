@@ -126,6 +126,10 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "CCE",
+            "IT",
+            "CSE"});
             this.comboBox1.Location = new System.Drawing.Point(44, 231);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
@@ -137,9 +141,9 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(41, 321);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(80, 17);
+            this.checkBox1.Size = new System.Drawing.Size(60, 17);
             this.checkBox1.TabIndex = 9;
-            this.checkBox1.Text = "checkBox1";
+            this.checkBox1.Text = "English";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // checkBox2
@@ -147,19 +151,20 @@
             this.checkBox2.AutoSize = true;
             this.checkBox2.Location = new System.Drawing.Point(127, 321);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(80, 17);
+            this.checkBox2.Size = new System.Drawing.Size(50, 17);
             this.checkBox2.TabIndex = 10;
-            this.checkBox2.Text = "checkBox2";
+            this.checkBox2.Text = "Hindi";
             this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
             this.checkBox3.Location = new System.Drawing.Point(213, 321);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(80, 17);
+            this.checkBox3.Size = new System.Drawing.Size(69, 17);
             this.checkBox3.TabIndex = 11;
-            this.checkBox3.Text = "checkBox3";
+            this.checkBox3.Text = "Kannada";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
             // button1
@@ -168,7 +173,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 12;
-            this.button1.Text = "next";
+            this.button1.Text = "Submit";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 

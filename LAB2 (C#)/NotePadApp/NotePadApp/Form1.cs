@@ -64,7 +64,8 @@ namespace NotePadApp
                 StreamReader sr = new StreamReader(fName);
                 richTextBox1.Text = sr.ReadToEnd();
                 sr.Close();
-                }
+                }
+
 
         }
 
@@ -76,7 +77,8 @@ namespace NotePadApp
             StreamWriter sw = new StreamWriter(fName);
             sw.Write(richTextBox1.Text);
             sw.Flush();
-            sw.Close();
+            sw.Close();
+
         }
 
         private void fontToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -95,6 +97,12 @@ namespace NotePadApp
         {
             Form2 obj1 = new Form2();
             obj1.Show();
-        }
+        }
+
+        private void fontDialog1_Apply(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
