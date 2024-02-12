@@ -1,10 +1,10 @@
-create Table Student (regno varchar(20),name varchar(20),major varchar(20),bdate date,primary key(regno));
+q1) create Table Student (regno varchar(20),name varchar(20),major varchar(20),bdate date,primary key(regno));
 create Table course (course int,cname varchar(20),dept varchar(20),primary key(course));
 create Table Enroll (regno varchar(20),course int, sem int, book_isbn int, primary key(course, regno));
 create table book_adoption(course int, sem int, book_isbn int, primary key(course,sem));
 create table text(book_isbn int, booktitle varchar(20), publisher varchar(50), author varchar (50),primary key(book_isbn));
 
-insert into Student values('3306','Vansh','CCE',to_date('2004-05-23','YYYY-MM-DD'));
+q2) insert into Student values('3306','Vansh','CCE',to_date('2004-05-23','YYYY-MM-DD'));
 insert into Student values('4567','Rahul','IT',to_date('2004-06-24','YYYY-MM-DD'));
 insert into Student values('3546','Ram ','CSE',to_date('2004-07-29','YYYY-MM-DD'));
 insert into Student values('2365','Hema','MECH',to_date('2004-02-29','YYYY-MM-DD'));
@@ -22,7 +22,153 @@ insert into Enroll values('3546','1003','3','80083');
 insert into Enroll values('2365','1004','3','80084');
 insert into Enroll values('2756','1005','3','80085');
 
-insert into book_adoption('1001','3','80081');
+insert into book_adoption(course,sem,book_isbn)
+values(1001, 3, 80081);
+insert into book_adoption(course,sem,book_isbn)
+values(1002, 3, 80082);
+insert into book_adoption(course,sem,book_isbn)
+values(1003, 3, 80083);
+insert into book_adoption(course,sem,book_isbn)
+values(1004, 3, 80084);
+insert into book_adoption(course,sem,book_isbn)
+values(1005, 3, 80085);
+
+INSERT INTO text (book_isbn, booktitle, publisher, author)
+VALUES (80081, 'JungleBook', 'Puffin', 'Rudyard Kipling');
+INSERT INTO text (book_isbn, booktitle, publisher, author)
+VALUES (80082, 'Animal Farm', 'RM', 'George Orwell');
+INSERT INTO text (book_isbn, booktitle, publisher, author)
+VALUES (80083, 'Much ado about nothing', 'pollard', 'W. Shakespeare');
+INSERT INTO text (book_isbn, booktitle, publisher, author)
+VALUES (80084, 'Noddy', 'Puffin', 'Enid Blyton');
+INSERT INTO text (book_isbn, booktitle, publisher, author)
+VALUES (80085, 'Harry Potter', 'Dodo', 'Martha Stuart');
+
+q3) a)select course 
+from book_adoption
+group by course
+having count(*)>1;
+
+b) select dept 
+   from course
+   where book_isbn = (select book_isbn
+				from book_adoption
+				where 
+
+SELECT DISTINCT c.dept
+FROM COURSE c
+WHERE NOT EXISTS (
+    SELECT *
+    FROM BOOK_ADOPTION ba
+    WHERE ba.course = c.course
+    AND NOT EXISTS (
+        SELECT *
+        FROM TEXT t
+        WHERE t.book_isbn = ba.book_isbn
+        AND t.publisher = 'Puffin'
+    )
+);
+
+c)
+select s.name
+from student s
+where exists(
+		select count(course)
+		from 
+
+SELECT DISTINCT s.regno, s.name
+FROM STUDENT s
+JOIN ENROLL e ON s.regno = e.regno
+JOIN COURSE c ON e.course = c.course
+GROUP BY s.regno, s.name
+HAVING COUNT(DISTINCT c.dept) > 1;
+
+d)
+SELECT regno, name
+FROM STUDENT
+WHERE regno NOT IN (SELECT DISTINCT regno FROM ENROLL);
+
+e)
+
+SELECT c.dept
+FROM COURSE c
+JOIN BOOK_ADOPTION ba ON c.course = ba.course
+JOIN TEXT t ON ba.book_isbn = t.book_isbn
+WHERE t.publisher = 'Puffin'
+GROUP BY c.dept
+HAVING COUNT(DISTINCT t.book_isbn) = (
+    SELECT COUNT(DISTINCT book_isbn) FROM TEXT WHERE publisher = 'Puffin'
+);
+
+f)
+
+SELECT DISTINCT t.book_isbn, t.booktitle
+FROM TEXT t
+JOIN BOOK_ADOPTION ba ON t.book_isbn = ba.book_isbn
+JOIN COURSE c ON ba.course = c.course
+JOIN ENROLL e ON ba.course = e.course AND ba.sem = e.sem
+
+out:  BOOK_ISBN BOOKTITLE
+---------- --------------------
+     80081 JungleBook
+     80085 Harry Potter
+     80084 Noddy
+     80082 Animal Farm
+
+g)
+
+SELECT c.course, c.cname, c.dept
+FROM COURSE c
+JOIN BOOK_ADOPTION ba ON c.course = ba.course
+JOIN TEXT t ON ba.book_isbn = t.book_isbn
+WHERE t.publisher = 'Puffin'
+GROUP BY c.course, c.cname, c.dept
+HAVING COUNT(DISTINCT t.book_isbn) >= 2;
+
+h)
+
+SELECT s.regno, s.name
+FROM STUDENT s
+JOIN ENROLL e ON s.regno = e.regno
+GROUP BY s.regno, s.name
+HAVING COUNT(e.book_isbn) = (
+    SELECT MAX(enrollment_count)
+    FROM (
+        SELECT COUNT(book_isbn) as enrollment_count
+        FROM ENROLL
+        GROUP BY regno
+    ) AS max_enrollments
+);
+
+i)
+
+SELECT publisher, COUNT(*) AS num_books_published
+FROM TEXT
+GROUP BY publisher;
+
+out: PUBLISHER                                          NUM_BOOKS_PUBLISHED
+-------------------------------------------------- -------------------
+Dodo                                                                 1
+RM                                                                   1
+Puffin                                                               2
+
+
+j)
+
+SELECT s.regno, s.name
+FROM STUDENT s
+JOIN ENROLL e ON s.regno = e.regno
+JOIN BOOK_ADOPTION ba ON e.course = ba.course AND e.sem = ba.sem
+JOIN TEXT t ON ba.book_isbn = t.book_isbn
+GROUP BY s.regno, s.name
+HAVING COUNT(DISTINCT t.book_isbn) = (
+    SELECT COUNT(DISTINCT ba.book_isbn)
+    FROM BOOK_ADOPTION ba
+    WHERE ba.course = e.course AND ba.sem = e.sem
+);
+
+
+
 
 all create tables
 1 insert per table
