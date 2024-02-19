@@ -1,0 +1,308 @@
+create or [replace] procedure name
+	[params]
+as
+	[local declrations]
+begin
+	exec commands
+[exception
+	exceptio nb handlers]
+
+end[name];
+
+------------------------------------
+
+CREATE OR REPLACE PROCEDURE insertPerson
+  (id IN VARCHAR2, dob IN DATE, fname IN VARCHAR2, lname IN VARCHAR2)
+IS
+  counter INTEGER; --declaration part
+BEGIN
+  SELECT COUNT(*) INTO counter FROM person p WHERE p.pid = id;
+
+  IF (counter > 0) THEN
+    -- person with the given pid already exists
+    DBMS_OUTPUT.PUT_LINE ('WARNING Inserting person: person with pid ' || id || ' already exists!');
+  ELSE
+    INSERT INTO person VALUES (id, dob, fname, lname);
+    DBMS_OUTPUT.PUT_LINE ('Person with pid ' || id || ' is inserted.');
+  END IF;
+END insertPerson;
+/
+
+for execution:
+
+EXECUTEProcedure_name
+SQL> EXECUTE insertPerson (‘p1’, ’10-10-2000’, ‘John’,’Smith’);
+
+
+-----------------------------------------
+
+creating a function
+
+CREATE OR REPLACE FUNCTION function_name
+  (parameter1 IN datatype1, parameter2 IN datatype2, ..., parameterN IN data typeN)
+RETURN return_datatype
+IS
+  local_variable datatype;
+BEGIN
+  -- Function body
+  <body>
+  
+  -- Return statement
+  RETURN return_value;
+END function_name;
+/
+
+---------------------------------------------
+
+triggers
+
+CREATE OR REPLACE TRIGGER trigger_name
+{BEFORE|AFTER} triggering_event ON table_name
+[FOR EACH ROW]
+DECLARE
+  -- Declaration statements 
+BEGIN
+  -- Executable statements 
+EXCEPTION
+  -- Exception-handling statements 
+END;
+/
+
+-------------------------------------------
+
+cursors
+
+DECLARE
+  -- Declare variables
+  variable1 datatype;
+  variable2 datatype;
+  
+  -- Declare records if needed
+  
+  -- Declare cursor
+  CURSOR cursor_name IS
+    SELECT column1, column2
+    FROM table_name
+    WHERE condition;
+  
+  -- Cursor variables to hold fetched data
+  cursor_variable1 table_name.column1%TYPE;
+  cursor_variable2 table_name.column2%TYPE;
+BEGIN
+  -- Open the cursor
+  OPEN cursor_name;
+  
+  -- Fetch records
+  FETCH cursor_name INTO cursor_variable1, cursor_variable2;
+  
+  -- Process the records
+  WHILE cursor_name%FOUND LOOP
+    -- Your processing logic goes here
+    -- You can access cursor_variable1, cursor_variable2 to process the fetched data
+    
+    -- Fetch next record
+    FETCH cursor_name INTO cursor_variable1, cursor_variable2;
+  END LOOP;
+  
+  -- Close the cursor
+  CLOSE cursor_name;
+END;
+/
+---------------------------------------
+Driver Schema contstruct
+
+PERSON (driver_id#: varchar(30), name: varchar(50),
+address:varchar(100)
+CAR (regno: varchar(20), model: varchar(30), Year:int)
+ACCIDENT (report_number: int, accd_date: date, location:
+varchar(50))
+OWNS (driver_id#: varchar(30), regno: varchar(20))
+PARTICIPATED (driver_id#: varchar(30), regno: varchar(20), report_number:
+int, damage_amount: int)
+
+
+--------------------------------------
+
+LAB-6
+
+q1) 
+
+create or replace trigger ShowPart
+after insert on Participated
+begin
+	select * from person p and participated pd where p.driver_id = pd.driver_id
+end;
+/ 
+	
+CREATE OR REPLACE TRIGGER ShowPart
+AFTER INSERT ON PARTICIPATED
+FOR EACH ROW
+DECLARE
+    v_driver_name PERSON.name%TYPE;
+    v_car_model CAR.model%TYPE;
+    v_accident_date ACCIDENT.accd_date%TYPE;
+    v_damage_amount PARTICIPATED.damage_amount%TYPE;
+BEGIN
+    -- Retrieve driver information
+    SELECT p.name, c.model, a.accd_date, :NEW.damage_amount
+    INTO v_driver_name, v_car_model, v_accident_date, v_damage_amount
+    FROM PERSON p
+    JOIN OWNS o ON p.driver_id# = o.driver_id#
+    JOIN CAR c ON o.regno = c.regno
+    JOIN ACCIDENT a ON :NEW.report_number = a.report_number
+    WHERE p.driver_id# = :NEW.driver_id# AND o.regno = :NEW.regno;
+
+    -- Display driver information
+    DBMS_OUTPUT.PUT_LINE('Driver Name: ' || v_driver_name);
+    DBMS_OUTPUT.PUT_LINE('Car Model: ' || v_car_model);
+    DBMS_OUTPUT.PUT_LINE('Accident Date: ' || TO_CHAR(v_accident_date, 'DD-MON-YYYY'));
+    DBMS_OUTPUT.PUT_LINE('Damage Amount: ' || v_damage_amount);
+END;
+/
+
+{working}
+
+CREATE OR REPLACE TRIGGER ShowPart
+AFTER INSERT ON PARTICIPATED
+FOR EACH ROW
+DECLARE
+    v_driver_name PERSON.name%TYPE;
+BEGIN
+    -- Retrieve driver information based on the newly inserted driver_id
+    SELECT name
+    INTO v_driver_name
+    FROM PERSON
+    WHERE driver_id = :NEW.driver_id;
+
+    -- Display driver information
+    DBMS_OUTPUT.PUT_LINE('Driver Name: ' || v_driver_name);
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No data found for the given criteria.');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error occurred: ' || SQLERRM);
+END;
+/
+
+***REMEMBER TO SET SERVER OUTPUT ON***
+SET SERVEROUTPUT ON;
+
+
+q2) 
+
+create or replace function AccidCount
+	(report number in participated)
+    
+return varchar2
+
+as
+	acc_count varchar2(10)
+
+begin
+	select count(report_number)
+	into acc_count
+	from participated
+	
+return acc_count;
+end;
+/
+
+
+CREATE OR REPLACE FUNCTION AccidCount
+    (year_in IN NUMBER)
+RETURN VARCHAR2
+AS
+    acc_count VARCHAR2(10);
+BEGIN
+    SELECT COUNT(report_number)
+    INTO acc_count
+    FROM PARTICIPATED
+    WHERE report_number IN (
+        SELECT report_number
+        FROM ACCIDENT
+        WHERE EXTRACT(YEAR FROM accd_date) = year_in
+    );
+    
+    RETURN acc_count;
+END;
+/
+
+output: SELECT AccidCount(2003) AS total_accidents FROM DUAL;
+
+TOTAL_ACCIDENTS
+--------------------------------------------------------------------------------
+0
+
+q3)
+
+CREATE OR REPLACE PROCEDURE TotalDamageForDriverYear (
+    driver_id_in IN VARCHAR2,
+    year_in IN NUMBER,
+    total_damage OUT NUMBER
+)
+IS
+BEGIN
+    -- Initialize the total damage to 0
+    total_damage := 0;
+
+    -- Calculate the total damage caused due to accidents for the specified driver and year
+    SELECT SUM(p.damage_amount)
+    INTO total_damage
+    FROM PARTICIPATED p
+    JOIN ACCIDENT a ON p.report_number = a.report_number
+    WHERE p.driver_id = driver_id_in
+    AND EXTRACT(YEAR FROM a.accd_date) = year_in;
+END TotalDamageForDriverYear;
+/
+
+DECLARE
+    v_total_damage NUMBER;
+BEGIN
+    TotalDamageForDriverYear('123', 2004, v_total_damage);
+    DBMS_OUTPUT.PUT_LINE('Total damage for the driver in 2023: ' || v_total_damage);
+END;
+/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+LAB-7
+
+q1) wap which inserts driver info into table t1 if the total damage amount of that driver exceeds 50k
+
+q2) wap to store accident details into different tables based on accident location info; make use of cursor concept
+
+q3) generate a trigger intimating the driver regarding the accidents if the number of accidents by the driver reaches the count of 3
+
+q4) write a pl sql fu^n to withdraw money from bank account
+
+q5) create a procedure to display 20% disc amt on each order , provided the order has atleast 5 items
+
+
+
+
+
+full pl sql query
+along w suitable prompts and outputs
