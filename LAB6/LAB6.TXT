@@ -263,6 +263,35 @@ BEGIN
 END;
 /
 
+q4)
+
+CREATE OR REPLACE PROCEDURE AccidentInfoForLocation (
+    location_in IN VARCHAR2
+)
+IS
+BEGIN
+    -- Display accident information for the specified location
+    FOR accident_rec IN (
+        SELECT report_number, accd_date, location
+        FROM ACCIDENT
+        WHERE location = location_in
+    ) LOOP
+        DBMS_OUTPUT.PUT_LINE('Accident Report Number: ' || accident_rec.report_number);
+        DBMS_OUTPUT.PUT_LINE('Date of Accident: ' || TO_CHAR(accident_rec.accd_date, 'DD-MON-YYYY'));
+        DBMS_OUTPUT.PUT_LINE('Location: ' || accident_rec.location);
+        DBMS_OUTPUT.PUT_LINE('-----------------------------');
+    END LOOP;
+END AccidentInfoForLocation;
+/
+
+
+
+BEGIN
+    AccidentInfoForLocation('your_location');
+END;
+/
+
+
 
 
 
