@@ -291,6 +291,102 @@ BEGIN
 END;
 /
 
+q5)
+
+CREATE OR REPLACE PROCEDURE InsertDriverInfoIfExceedsThreshold (
+    driver_id_in IN VARCHAR2
+)
+IS
+    total_damage NUMBER;
+BEGIN
+    -- Calculate the total damage amount for the specified driver
+    SELECT SUM(damage_amount)
+    INTO total_damage
+    FROM PARTICIPATED
+    WHERE driver_id# = driver_id_in;
+
+    -- Check if the total damage amount exceeds 50k
+    IF total_damage > 50000 THEN
+        -- Insert driver information into table t1
+        INSERT INTO t1 (driver_id, total_damage_amount)
+        VALUES (driver_id_in, total_damage);
+
+        DBMS_OUTPUT.PUT_LINE('Driver info inserted into t1 for driver ID ' || driver_id_in);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Total damage for driver ID ' || driver_id_in || ' does not exceed 50k. No insertion performed.');
+    END IF;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No data found for the given driver ID: ' || driver_id_in);
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error occurred: ' || SQLERRM);
+END InsertDriverInfoIfExceedsThreshold;
+/
+
+BEGIN
+    InsertDriverInfoIfExceedsThreshold('your_driver_id');
+END;
+/
+
+
+q6)
+
+CREATE OR REPLACE PROCEDURE StoreAccidentDetailsBasedOnLocation AS
+    CURSOR accident_cursor IS
+        SELECT report_number, accd_date, location
+        FROM ACCIDENT;
+BEGIN
+    FOR accident_rec IN accident_cursor LOOP
+        IF accident_rec.location = 'Location1' THEN
+            -- Insert into table for Location1
+            INSERT INTO Table_Location1 (report_number, accd_date, location)
+            VALUES (accident_rec.report_number, accident_rec.accd_date, accident_rec.location);
+        ELSIF accident_rec.location = 'Location2' THEN
+            -- Insert into table for Location2
+            INSERT INTO Table_Location2 (report_number, accd_date, location)
+            VALUES (accident_rec.report_number, accident_rec.accd_date, accident_rec.location);
+        -- Add more conditions for other locations as needed
+        ELSE
+            -- Handle other locations or perform additional actions
+            NULL; -- No action for other locations in this example
+        END IF;
+    END LOOP;
+END StoreAccidentDetailsBasedOnLocation;
+/
+
+BEGIN
+    StoreAccidentDetailsBasedOnLocation;
+    DBMS_OUTPUT.PUT_LINE('Accident details stored based on location.');
+END;
+/
+
+q7)
+
+CREATE OR REPLACE TRIGGER IntimateDriverAccident
+AFTER INSERT ON PARTICIPATED
+FOR EACH ROW
+DECLARE
+    v_driver_id VARCHAR2(30);
+    v_accident_count NUMBER;
+BEGIN
+    -- Retrieve the driver ID of the inserted record
+    v_driver_id := :NEW.driver_id#;
+    
+    -- Count the number of accidents for the driver
+    SELECT COUNT(*)
+    INTO v_accident_count
+    FROM PARTICIPATED
+    WHERE driver_id# = v_driver_id;
+    
+    -- Check if the number of accidents reaches 3
+    IF v_accident_count = 3 THEN
+        -- Intimate the driver about the accidents
+        -- Replace this with the appropriate action (e.g., sending a notification)
+        DBMS_OUTPUT.PUT_LINE('Dear Driver ' || v_driver_id || ', you have been involved in 3 accidents.');
+    END IF;
+END;
+/
+
 
 
 
