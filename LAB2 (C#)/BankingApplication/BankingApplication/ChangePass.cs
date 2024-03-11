@@ -23,5 +23,10 @@ namespace BankingApplication
             NewPassword = textBox1.Text;
             this.Close(); // Close the ChangePass form after setting the password
         }
+
+        private void ChangePass_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

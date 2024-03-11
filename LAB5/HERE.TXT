@@ -1,47 +1,47 @@
-q1) create Table Student (regno varchar(20),name varchar(20),major varchar(20),bdate date,primary key(regno));
-create Table course (course int,cname varchar(20),dept varchar(20),primary key(course));
-create Table Enroll (regno varchar(20),course int, sem int, book_isbn int, primary key(course, regno));
-create table book_adoption(course int, sem int, book_isbn int, primary key(course,sem));
-create table text(book_isbn int, booktitle varchar(20), publisher varchar(50), author varchar (50),primary key(book_isbn));
+q1) create Table Student1 (regno varchar(20),name varchar(20),major varchar(20),bdate date,primary key(regno));
+create Table course1 (course int,cname varchar(20),dept varchar(20),primary key(course));
+create Table Enroll1 (regno varchar(20),course int, sem int, book_isbn int, primary key(course, regno));
+create table book_adoption1(course int, sem int, book_isbn int, primary key(course,sem));
+create table text1(book_isbn int, booktitle varchar(20), publisher varchar(50), author varchar (50),primary key(book_isbn));
 
-q2) insert into Student values('3306','Vansh','CCE',to_date('2004-05-23','YYYY-MM-DD'));
-insert into Student values('4567','Rahul','IT',to_date('2004-06-24','YYYY-MM-DD'));
-insert into Student values('3546','Ram ','CSE',to_date('2004-07-29','YYYY-MM-DD'));
-insert into Student values('2365','Hema','MECH',to_date('2004-02-29','YYYY-MM-DD'));
-insert into Student values('2756','Riya','ECE',to_date('2004-08-12','YYYY-MM-DD'));
+q2) insert into Student1 values('3306','Vansh','CCE',to_date('2004-05-23','YYYY-MM-DD'));
+insert into Student1 values('4567','Rahul','IT',to_date('2004-06-24','YYYY-MM-DD'));
+insert into Student1 values('3546','Ram ','CSE',to_date('2004-07-29','YYYY-MM-DD'));
+insert into Student1 values('2365','Hema','MECH',to_date('2004-02-29','YYYY-MM-DD'));
+insert into Student1 values('2756','Riya','ECE',to_date('2004-08-12','YYYY-MM-DD'));
 
-insert into COURSE values('1001','DBMS','CCE');
-insert into COURSE values('1002','OS','CCE');
-insert into COURSE values('1003','MATHS','CCE');
-insert into COURSE values('1004','DAA','CCE');
-insert into COURSE values('1005','SDT','CCE');
+insert into COURSE1 values('1001','DBMS','CCE');
+insert into COURSE1 values('1002','OS','CCE');
+insert into COURSE1 values('1003','MATHS','CCE');
+insert into COURSE1 values('1004','DAA','CCE');
+insert into COURSE1 values('1005','SDT','CCE');
 
-insert into Enroll values('3306','1001','3','80081');
-insert into Enroll values('4567','1002','3','80082');
-insert into Enroll values('3546','1003','3','80083');
-insert into Enroll values('2365','1004','3','80084');
-insert into Enroll values('2756','1005','3','80085');
+insert into Enroll1 values('3306','1001','3','80081');
+insert into Enroll1 values('4567','1002','3','80082');
+insert into Enroll1 values('3546','1003','3','80083');
+insert into Enroll1 values('2365','1004','3','80084');
+insert into Enroll1 values('2756','1005','3','80085');
 
-insert into book_adoption(course,sem,book_isbn)
+insert into book_adoption1(course,sem,book_isbn)
 values(1001, 3, 80081);
-insert into book_adoption(course,sem,book_isbn)
+insert into book_adoption1(course,sem,book_isbn)
 values(1002, 3, 80082);
-insert into book_adoption(course,sem,book_isbn)
+insert into book_adoption1(course,sem,book_isbn)
 values(1003, 3, 80083);
-insert into book_adoption(course,sem,book_isbn)
+insert into book_adoption1(course,sem,book_isbn)
 values(1004, 3, 80084);
-insert into book_adoption(course,sem,book_isbn)
+insert into book_adoption1(course,sem,book_isbn)
 values(1005, 3, 80085);
 
-INSERT INTO text (book_isbn, booktitle, publisher, author)
+INSERT INTO text1 (book_isbn, booktitle, publisher, author)
 VALUES (80081, 'JungleBook', 'Puffin', 'Rudyard Kipling');
-INSERT INTO text (book_isbn, booktitle, publisher, author)
+INSERT INTO text1 (book_isbn, booktitle, publisher, author)
 VALUES (80082, 'Animal Farm', 'RM', 'George Orwell');
-INSERT INTO text (book_isbn, booktitle, publisher, author)
+INSERT INTO text1 (book_isbn, booktitle, publisher, author)
 VALUES (80083, 'Much ado about nothing', 'pollard', 'W. Shakespeare');
-INSERT INTO text (book_isbn, booktitle, publisher, author)
+INSERT INTO text1 (book_isbn, booktitle, publisher, author)
 VALUES (80084, 'Noddy', 'Puffin', 'Enid Blyton');
-INSERT INTO text (book_isbn, booktitle, publisher, author)
+INSERT INTO text1 (book_isbn, booktitle, publisher, author)
 VALUES (80085, 'Harry Potter', 'Dodo', 'Martha Stuart');
 
 q3) a)select course 
@@ -91,9 +91,9 @@ WHERE regno NOT IN (SELECT DISTINCT regno FROM ENROLL);
 e)
 
 SELECT c.dept
-FROM COURSE c
-JOIN BOOK_ADOPTION ba ON c.course = ba.course
-JOIN TEXT t ON ba.book_isbn = t.book_isbn
+FROM COURSE1 c
+JOIN BOOK_ADOPTION1 ba ON c.course = ba.course
+JOIN TEXT1 t ON ba.book_isbn = t.book_isbn
 WHERE t.publisher = 'Puffin'
 GROUP BY c.dept
 HAVING COUNT(DISTINCT t.book_isbn) = (

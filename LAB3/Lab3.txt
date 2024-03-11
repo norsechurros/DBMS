@@ -32,3 +32,92 @@ ADD (accd_year GENERATED ALWAYS AS (EXTRACT(YEAR FROM accd_date)) VIRTUAL);
 -- Add a check constraint using the virtual column
 ALTER TABLE accident
 ADD CONSTRAINT check_accd_year CHECK (accd_year <= 2020);
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+CREATE TABLE PERSON (
+    driver_id# VARCHAR(30) PRIMARY KEY,
+    name VARCHAR(50),
+    address VARCHAR(100)
+);
+
+CREATE TABLE CAR (
+    regno VARCHAR(20) PRIMARY KEY,
+    model VARCHAR(30),
+    Year INT
+);
+
+CREATE TABLE ACCIDENT (
+    report_number INT PRIMARY KEY,
+    accd_date DATE,
+    location VARCHAR(50)
+);
+
+CREATE TABLE OWNS (
+    driver_id# VARCHAR(30),
+    regno VARCHAR(20),
+    FOREIGN KEY (driver_id#) REFERENCES PERSON(driver_id#),
+    FOREIGN KEY (regno) REFERENCES CAR(regno),
+    PRIMARY KEY (driver_id#, regno)
+);
+
+CREATE TABLE PARTICIPATED (
+    driver_id# VARCHAR(30),
+    regno VARCHAR(20),
+    report_number INT,
+    damage_amount INT,
+    FOREIGN KEY (driver_id#) REFERENCES PERSON(driver_id#),
+    FOREIGN KEY (regno) REFERENCES CAR(regno),
+    FOREIGN KEY (report_number) REFERENCES ACCIDENT(report_number),
+    PRIMARY KEY (driver_id#, regno, report_number)
+);
+
+
+--------------------
+
+
+-- Insert data into PERSON table
+INSERT INTO PERSON (driver_id#, name, address) VALUES
+('D001', 'John Doe', '123 Main St'),
+('D002', 'Jane Smith', '456 Elm St'),
+('D003', 'Michael Johnson', '789 Oak St'),
+('D004', 'Emily Brown', '101 Pine St'),
+('D005', 'David Lee', '222 Maple St');
+
+-- Insert data into CAR table
+INSERT INTO CAR (regno, model, Year) VALUES
+('ABC123', 'Toyota Camry', 2019),
+('XYZ456', 'Honda Accord', 2018),
+('DEF789', 'Ford Fusion', 2020),
+('GHI101', 'Chevrolet Malibu', 2017),
+('JKL202', 'Nissan Altima', 2016);
+
+-- Insert data into ACCIDENT table
+INSERT INTO ACCIDENT (report_number, accd_date, location) VALUES
+(1, '2022-01-15', 'Intersection of Main St and Elm St'),
+(2, '2022-02-20', 'Highway 101'),
+(3, '2022-03-10', 'Parking lot of Oak Mall'),
+(4, '2022-04-05', 'Intersection of Pine St and Maple St'),
+(5, '2022-05-12', 'Downtown area');
+
+-- Insert data into OWNS table
+INSERT INTO OWNS (driver_id#, regno) VALUES
+('D001', 'ABC123'),
+('D002', 'XYZ456'),
+('D003', 'DEF789'),
+('D004', 'GHI101'),
+('D005', 'JKL202');
+
+-- Insert data into PARTICIPATED table
+INSERT INTO PARTICIPATED (driver_id#, regno, report_number, damage_amount) VALUES
+('D001', 'ABC123', 1, 500),
+('D002', 'XYZ456', 2, 1000),
+('D003', 'DEF789', 3, 750),
+('D004', 'GHI101', 4, 1200),
+('D005', 'JKL202', 5, 800);

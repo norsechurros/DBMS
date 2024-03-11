@@ -1,0 +1,210 @@
+midterm prep
+
+q1) show that there have been more than 3 accidents 
+
+create or replace trigger morethanthree
+after instert on participated
+for each row
+
+declare
+
+v_name person.name%TYPE;
+v_accident_count NUMBER:=0;
+
+begin
+
+select name into v_name
+from person 
+where driver_id# = :NEW.driver_id#;
+
+SELECT count(*)
+int v_accident_count
+from participated
+where driver_id# - :NEW.driver_id#;
+
+if v_accident_count > 3 then
+	dbms_output.put_line('person: ' || v_name || 'has had: ' || v_accident_count 'accidents.');
+end if;
+end;
+/
+
+SELECT e.course, COUNT(b.book_isbn) AS num_textbooks
+FROM ENROLL e
+JOIN BOOK_ADOPTION b ON e.course = b.course
+GROUP BY e.course#
+HAVING COUNT(b.book_isbn) > 1;
+
+
+select c.dept
+from course1 c 
+where not exists
+	( select *
+	 from book_adoption1 ba
+	 where ba.course = c.course and not exists
+( select * 
+  from text1 t 
+  where t.book_isbn = ba.book_isbn
+  and t.publisher = 'puffin'));
+
+
+select *
+from student s
+where not exists ( select *
+		   from enroll e
+		   where e.regno = s.regno);
+
+
+select distinct c.dept
+from course1 c 
+join book_adoption1 ba on c.course = ba.course
+join text t on t.book_isbn = ba.book_isbn
+where t.publisher = 'puffin'
+having count (distinct t.book_isbn) = 
+(select book_isbn from text where publisher = 'puffin' );
+
+
+create or replace procdure TotDmg
+( driverId in varchar)
+
+is
+v_dmgamt participated.damage_amount%TYPE;
+;
+
+begin
+
+select p.damage_amount into v_dmgamt 
+from participated p
+where p.driver_id = driverId;
+
+dbms_output.put_line('total damage of id' || driverId || 'is ' || v_dmgamt);
+
+end;
+/
+
+
+CREATE OR REPLACE PROCEDURE TotDmg (
+    driverId IN VARCHAR2,
+    year IN NUMBER
+) IS
+    v_total_damage NUMBER := 0;
+BEGIN
+    SELECT SUM(p.damage_amount) INTO v_total_damage
+    FROM participated p
+    JOIN accident a ON p.report_number = a.report_number
+    WHERE p.driver_id# = driverId AND EXTRACT(YEAR FROM a.accd_date) = year;
+
+    IF v_total_damage IS NULL THEN
+        DBMS_OUTPUT.PUT_LINE('No damage recorded for driver ID ' || driverId || ' in year ' || year);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Total damage of driver ID ' || driverId || ' in year ' || year || ' is ' || v_total_damage);
+    END IF;
+END TotDmg;
+/
+
+
+create table customer(cust int,cname varchar(20),city varchar(20), primary key(cust));
+create table orders(order int,odate date,cust int,ordamt int, primary key(order));
+
+ insert into orders values (1,to_date('2004-06-04','YYYY-MM-DD'),1,500);
+ insert into orders values (2,to_date('2004-07-03','YYYY-MM-DD'),2,700);
+ insert into orders values (3,to_date('2005-08-01','YYYY-MM-DD'),3,800);
+ insert into orders values (4,to_date('2003-06-12','YYYY-MM-DD'),4,100);
+ insert into orders values (5,to_date('2009-06-17','YYYY-MM-DD'),5,300);
+
+
+
+select c.cname as custname, count(o.order) as noOfOrders, avg(ordamt) as average
+from customer c 
+ join orders o on c.cust = o.cust
+
+group by c.name;
+
+
+select o.order#
+from orders o
+join shipment s on s.order# = o.order
+join warehouse w on w.warehouse = s.warehouse;
+where w.city = 'thane'
+group by o.order#
+having count (distinct s.warehouse = 
+
+	select )
+
+
+
+update orders 
+set orderamt = case
+
+when ( select sum(qty)
+	from order_items
+	where order_items.order# = orders.order#;) > 10 then orderamt*0.9
+	else orderamt*0.95
+end;
+
+CUSTOMER (cust#: int, cname: varchar(50), city: varchar(30))
+ORDERS (order#:int, odate: date, cust#: int, ordamt: int) 
+ITEM (item#: int, unitprice: int)
+ORDER_ITEMS (order#:int, qty:int, item#:int)
+SHIPMENT (order#: int, warehouse#: int, shipdate: date) 
+WAREHOUSE (warehouse#:int, city: varchar(30))
+
+
+select * c.cname
+from customer c
+join orders o on o.cust# = c.cust#
+where o.ordamt = (select max(ordamt)
+		from orders;);
+
+
+create or replace function carModel
+regno in varchar2
+
+return varchar2
+
+as
+
+v_model varchar2(20)
+
+begin
+
+select model into v_model
+from participated p
+where regnno = p.regno
+
+return v_model
+
+exception
+when no_data_found
+then return('no model found')
+
+end;
+/
+
+
+DECLARE
+    -- Declare variables to hold cursor query results
+    v_driver_id PERSON.driver_id%TYPE;
+    v_name PERSON.name%TYPE;
+    
+    -- Declare cursor
+    CURSOR car_owners_cursor IS
+        SELECT p.driver_id, p.name
+        FROM PERSON p
+        JOIN OWNS o ON p.driver_id# = o.driver_id
+        JOIN CAR c ON o.regno = c.regno
+        WHERE c.Year < 2010;
+BEGIN
+    -- Open the cursor
+    OPEN car_owners_cursor;
+    
+    -- Fetch and display results
+    LOOP
+        FETCH car_owners_cursor INTO v_driver_id, v_name;
+        EXIT WHEN car_owners_cursor%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('Driver ID: ' || v_driver_id || ', Name: ' || v_name);
+    END LOOP;
+    
+    -- Close the cursor
+    CLOSE car_owners_cursor;
+END;
+/

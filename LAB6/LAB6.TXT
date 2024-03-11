@@ -366,6 +366,8 @@ CREATE OR REPLACE TRIGGER IntimateDriverAccident
 AFTER INSERT ON PARTICIPATED
 FOR EACH ROW
 DECLARE
+pragma autonomous_transaction;
+
     v_driver_id VARCHAR2(30);
     v_accident_count NUMBER;
 BEGIN

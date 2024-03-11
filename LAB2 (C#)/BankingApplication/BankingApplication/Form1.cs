@@ -58,5 +58,10 @@ namespace BankingApplication
 
                 label3.Text = "Wrong Password";
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
